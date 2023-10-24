@@ -8,7 +8,6 @@ count.innerText = appleCounter;
 
 function setup() {
     createCanvas(width, height);
-    frameRate(4);
     // ヘビを生成
     snake = new Snake();
     // リンゴを生成
@@ -17,19 +16,31 @@ function setup() {
 
 function draw() {
     background("whitesmoke");
+    frameRate(5);
     //マス目を描画
     dispCell();
-    // ヘビを描画
-    snake.disp();
-    //リンゴを描画
-    apple.disp();
-    
+
     //ヘビを動かす
     snake.move();
     //ヘビがリンゴを食べる 
     snake.eat();
+    // ヘビを描画
+    snake.disp();
 
-    if (appleCounter == width / size * height / size -1) {
+    //リンゴを描画
+    apple.disp();
+
+    //ゲームオーバー画面を表示
+    if (snake.end()) {
+        noLoop();
+        background("gray");
+        fill("white");
+        textSize(30);
+        text(`残念!!!🤭`, 260, height / 2 - 40);
+        text("スペースキー: リトライ", 150, height / 2 + 20);
+    }
+    //クリア画面を表示
+    if (appleCounter == width / size * height / size - 1) {
         noLoop();
         background("gold");
         fill("white");
@@ -145,21 +156,9 @@ class Snake {
     }
 
     move() {
-        frameRate(4);
         let head = this.body[this.body.length -1].copy();
         head.x += this.vx * size;
         head.y += this.vy * size;
-
-        //ゲームオーバー
-        if (snake.end()) {
-            noLoop();
-            background("gray");
-            fill("white");
-            textSize(30);
-            text(`残念!!!🤭`, 260, height / 2 - 40);
-            text("スペースキー: リトライ", 150, height / 2 + 20);
-        }
-
         this.body.shift();
         this.body.push(head);
     }
@@ -172,6 +171,7 @@ class Snake {
             count.innerText = appleCounter;
             //ヘビの体を大きくする   
             this.add();
+            //リンゴをランダムに移動
             apple.move();
         }
     }
@@ -194,7 +194,7 @@ class Snake {
             return true
           }
         }
-    }
+    }ss
 }
 
 class Apple {
@@ -208,14 +208,15 @@ class Apple {
     }
 
     move() {
-        this.body.x = floor(random(0, width / size)) * size;
-        this.body.y = floor(random(0, height / size)) * size;
-
-        for (let i = 0; i < snake.body.length -1; i++) {
-            if (snake.body[i].x == this.body.x && snake.body[i].y == this.body.y) {
-                this.body.x = floor(random(0, width / size)) * size;
-                this.body.y = floor(random(0, height / size)) * size;
-            }
+        let temp_x = floor(random(0, width / size)) * size;
+        let temp_y = floor(random(0, height / size)) * size;
+        for (let i = 0; i < snake.body.length; i++) {
+            while (snake.body[i].x === temp_x && snake.body[i].y === temp_y && this.body.x === temp_x && this.body.y === temp_y) {
+                temp_x = floor(random(0, width / size)) * size;
+                temp_y = floor(random(0, height / size)) * size;
+            }  
+            this.body.x = temp_x;
+            this.body.y = temp_y;
         }
     }
 }
