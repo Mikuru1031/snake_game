@@ -36,17 +36,19 @@ function draw() {
         background("gray");
         fill("white");
         textSize(30);
-        text(`残念!!!🤭`, 260, height / 2 - 40);
+        text(`残念!!😊`, 270, height / 2 - 40);
         text("スペースキー: リトライ", 150, height / 2 + 20);
     }
     //クリア画面を表示
     if (appleCounter == width / size * height / size - 1) {
         noLoop();
         background("gold");
-        fill("white");
-        textSize(30);
-        text(`おめでとう!!!🥳`, 200, height / 2 - 40);
-        text("スペースキー: リトライ", 140, height / 2 + 20)
+        fill("black");
+        textSize(25);
+        text(`クリアおめでとう！`, 210, height / 2 - 60)
+        text(`こんなクソゲーに時間を割くなんて、相当暇なんだね。`, 13, height / 2);
+        textSize(10)
+        text("スペースキー: リトライ", 260, height / 2 + 60)
     }
 }
 
