@@ -46,7 +46,6 @@ function draw() {
         fill("black");
         textSize(25);
         text(`クリアおめでとう！`, 210, height / 2 - 60)
-        text(`こんなクソゲーに時間を割くなんて、相当暇なんだね。`, 13, height / 2);
         textSize(10)
         text("スペースキー: リトライ", 260, height / 2 + 60)
     }
